@@ -2,7 +2,47 @@
 <html>
   <head>
     <style> 
-        /*CSS goes here*/
+        html,
+      body {
+        font-family: Arial, sans-serif;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        height: 100%;
+        position: relative;
+      }
+
+      input {
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin: 0 0 10px 0;
+        text-align: center;
+      }
+
+      #map {
+        bottom:0px;
+        height: 100%;
+        left: 400px;
+        position: absolute;
+        right: 0px;
+      }
+
+      .options-box {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 3px;
+        height: 100%;
+        line-height: 35px;
+        padding: 10px 10px 30px 10px;
+        text-align: left;
+        width: 378px;
+      }
     </style>
   </head>
 
@@ -10,12 +50,26 @@
     <div class="container"> 
         <div class="options-box">
             <h1>Washington Bridge Vertical Clearances</h1>
+            <div>  
+                <input id="show-bridges" type="button" value="Show Bridges">
+                <input id="hide-bridges" type="button" value="Hide Bridges">
+        
+            </div>
         </div>
         <div id="map"></div>
     </div>
 
     <script>
-        /*Javascript goes here*/
+        var markers = [];
+        var placeMarkers = [];
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 47.591103, lng: -120.767221},
+                zoom: 8,
+                mapTypeId: 'roadmap'
+            });
+        }
     </script>
 
     <script async defer
