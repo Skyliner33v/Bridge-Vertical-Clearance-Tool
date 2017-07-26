@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style> 
         html,
       body {
@@ -25,10 +26,14 @@
         text-align: center;
       }
 
+      #routeInfo {
+          font-size: 12px;
+      }
+
       #map {
         bottom:0px;
         height: 100%;
-        left: 400px;
+        left: 500px;
         position: absolute;
         right: 0px;
       }
@@ -41,7 +46,8 @@
         line-height: 35px;
         padding: 10px 10px 30px 10px;
         text-align: left;
-        width: 378px;
+        width: 478px;
+        overflow-y: scroll;
       }
     </style>
   </head>
@@ -51,18 +57,20 @@
         <div class="options-box">
             <h1>Washington Bridge Vertical Clearances</h1>
             <div>  
-                <input id="show-bridges" type="button" value="Show Bridges">
-                <input id="hide-bridges" type="button" value="Hide Bridges">
-        
+                <input id="inputRoute" type="text" value="Enter 3 digit route ex 005">
+                <input type="button" value="Get Route" onclick="getRoute()">
+                <div id="routeInfo"></div>
             </div>
         </div>
         <div id="map"></div>
     </div>
 
     <script>
+        // Create blank arrays for placing markers
         var markers = [];
         var placeMarkers = [];
 
+        // Initialize map on page
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 47.591103, lng: -120.767221},
@@ -70,6 +78,30 @@
                 mapTypeId: 'roadmap'
             });
         }
+
+        //AJAX call to WSDOT api to get route specific bridge clearance info
+        function getRoute() {
+            var route = $('#inputRoute').val();
+            var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
+            var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" + key + "&Route=" + route;
+
+            $.ajax({
+			    url: url,
+			    dataType: 'jsonp',
+			    success: function(data){
+                    var retValue = "";
+                    var i = 0
+                    for(i; i< data.length; i++) {
+                        retValue += 
+                            data[i].BridgeName + " Begin Lat = " + data[i].BeginLatitude + " Begin Long = " + data[i].BeginLongitude + "<br>" +
+                            "Minimun Vertical Clearance = " + data[i].MinimumVerticalClearance + "<br>" 
+                        
+                    }
+                document.getElementById("routeInfo").innerHTML = retValue;
+
+    }});
+
+}
     </script>
 
     <script async defer
