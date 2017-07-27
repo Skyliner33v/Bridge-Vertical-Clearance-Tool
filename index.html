@@ -66,12 +66,13 @@
         <div id="map"></div>
     </div>
 
+
     <script>
         // Create blank arrays for placing markers
         var markers = [];
         var placeMarkers = [];
 
-        // Initialize map on page
+        // Initialize map on page, centered on WA state
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
@@ -85,29 +86,37 @@
 
         //AJAX call to WSDOT api to get route specific bridge clearance info
         function getRoute() {
+
+            //Clear out old route info first
+            var clearRoutes = "";
+            document.getElementById("routeInfo").innerHTML = clearRoutes;  
+
+            //Initilize call from user input
             var route = $('#inputRoute').val();
             var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
             var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" +
                 key + "&Route=" + route;
 
+            //Call to WSDOT API
             $.ajax({
                 url: url,
                 dataType: 'jsonp',
                 success: function (data) {
                     var retValue = "";
                     var i = 0
-                    for (i; i < data.length; i++) {  //Only want Under records where Begin and End Coorinates are the same
+                    for (i; i < data.length; i++) {  
+
+                        //We only want Under records where Begin and End Coordinates are the same
                         if (data[i].BeginLatitude===data[i].EndLatitude && data[i].BeginLongitude===data[i].EndLongitude) {
                             retValue +=
                                 data[i].BridgeName + " Begin Lat = " + data[i].BeginLatitude + " Begin Long = " +
                                 data[i].BeginLongitude + "<br>" +
                                 "Minimun Vertical Clearance = " + data[i].MinimumVerticalClearance + "<br>"
                         }
-
-
                     }
-                    document.getElementById("routeInfo").innerHTML = retValue;
 
+                    //Add returned info to page
+                    document.getElementById("routeInfo").innerHTML = retValue;
                 }
             });
 
