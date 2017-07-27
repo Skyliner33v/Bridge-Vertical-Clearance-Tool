@@ -92,7 +92,7 @@
             document.getElementById("routeInfo").innerHTML = clearRoutes;  
 
             //Initilize call from user input
-            var route = $('#inputRoute').val();
+            var route = document.getElementById("inputRoute").value;
             var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
             var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" +
                 key + "&Route=" + route;
