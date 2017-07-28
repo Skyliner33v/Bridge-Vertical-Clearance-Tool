@@ -3,7 +3,11 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Raleway');
+
         html,
         body {
             font-family: Arial, sans-serif;
@@ -39,10 +43,9 @@
             right: 0px;
         }
 
-        .options-box {
+        #sidebar {
+            position: absolute;
             background: #fff;
-            border: 1px solid #999;
-            border-radius: 3px;
             height: 100%;
             line-height: 35px;
             padding: 10px 10px 30px 10px;
@@ -50,24 +53,55 @@
             width: 478px;
             overflow-y: scroll;
         }
+
+        #header {
+            font: 36;
+            font-family: Raleway;
+        }
+
+        
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="options-box">
-            <h1>Washington Bridge Vertical Clearances</h1>
-            <div>
-                <input id="inputRoute" type="text" placeholder="Enter 3 digit route ex 005">
-                <input type="button" value="Get Route" onclick="getRoute()">
-                <div id="routeInfo"></div>
+
+    <div class- "container">
+
+        <div class="row" id="sidebar">
+            <h1 id="header">Washington Bridge Vertical Clearances</h1>
+
+            <div class="row" id="truckHeight">
+                <strong>Enter vehicle height in feet and inches</strong><br>
+                <input id="inputFeet" type="text" placeholder="Feet">
+                <input id="inputInches" type="text" placeholder="Inches"><br>
+                <button onclick="disclaimer()">Disclaimer</button>
+                <br><br>
             </div>
+
+            <div class="row" id="inputDirections">
+                <strong>Enter Directions</strong><br>
+                <!--Add google route directions input here -->
+            </div>
+
+
         </div>
+
+
         <div id="map"></div>
     </div>
 
 
+
+
+
     <script>
+        // Add disclaimer button
+        function disclaimer() {
+            var disclaimer =
+                'This Bridge Vertical Clearance Trip Planner is a guide for vertical clearances, but because of physical changes to highways and other possible inconsistencies due to natural phenomena (expansion and contraction of highway facilities due to temperature, natural or unnatural material deposition on the pavement, other transient and lasting unforeseen events, etc.), new construction, pavement overlays, lane reconfiguration, etc., it cannot be guaranteed.  As stated on all permits in accordance with state law, the operator is responsible to identify, navigate and clear all obstructions.\n WAC 468-38-370 states,\n\n "It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."\n\n For permitting purposes, the permit applicant is identified on the permit in the field titled "Company Name".  Note that the lane in which the maximum and minimum clearances occur are not listed. This must be determined by the operator. In accordance with state law, the owner or operator of a vehicle or combination of vehicles shall exercise due care in determining that sufficient vertical clearance is provided upon the public highways where the vehicle or combination of vehicles is being operated. Due to the variations in structure clearance partially cataloged above, such users should not assume that clearance is in excess of what is published, and should utilize check and prerun methods to assure safe passage.'
+            alert(disclaimer);
+        }
+
         // Create blank arrays for placing markers
         var markers = [];
         var placeMarkers = [];
@@ -89,7 +123,7 @@
 
             //Clear out old route info first
             var clearRoutes = "";
-            document.getElementById("routeInfo").innerHTML = clearRoutes;  
+            document.getElementById("routeInfo").innerHTML = clearRoutes;
 
             //Initilize call from user input
             var route = document.getElementById("inputRoute").value;
@@ -104,12 +138,14 @@
                 success: function (data) {
                     var retValue = "";
                     var i = 0
-                    for (i; i < data.length; i++) {  
+                    for (i; i < data.length; i++) {
 
                         //We only want Under records where Begin and End Coordinates are the same
-                        if (data[i].BeginLatitude===data[i].EndLatitude && data[i].BeginLongitude===data[i].EndLongitude) {
+                        if (data[i].BeginLatitude === data[i].EndLatitude && data[i].BeginLongitude ===
+                            data[i].EndLongitude) {
                             retValue +=
-                                data[i].BridgeName + " Begin Lat = " + data[i].BeginLatitude + " Begin Long = " +
+                                data[i].BridgeName + " Begin Lat = " + data[i].BeginLatitude +
+                                " Begin Long = " +
                                 data[i].BeginLongitude + "<br>" +
                                 "Minimun Vertical Clearance = " + data[i].MinimumVerticalClearance + "<br>"
                         }
@@ -123,8 +159,8 @@
         }
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
+
 </body>
 
 </html>
