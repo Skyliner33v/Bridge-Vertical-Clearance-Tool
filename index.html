@@ -3,7 +3,7 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+    
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Raleway');
@@ -59,6 +59,80 @@
             font-family: Raleway;
         }
 
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {top:-300px; opacity:0} 
+            to {top:0; opacity:1}
+        }
+
+        @keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .close:hover, .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 4px 16px;
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
         
     </style>
 </head>
@@ -69,7 +143,26 @@
 
         <div class="row" id="sidebar">
             <h1 id="header">Washington Bridge Vertical Clearances</h1>
-            <button onclick="disclaimer()">Disclaimer</button>
+
+            <div id="disclaimerModal" Class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Disclaimer</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>This Bridge Vertical Clearance Trip Planner is a guide for vertical clearances, but because of physical changes to highways and other possible inconsistencies due to natural phenomena (expansion and contraction of highway facilities due to temperature, natural or unnatural material deposition on the pavement, other transient and lasting unforeseen events, etc.), new construction, pavement overlays, lane reconfiguration, etc., it cannot be guaranteed.  As stated on all permits in accordance with state law, the operator is responsible to identify, navigate and clear all obstructions.
+                        <br><br>
+                        <a href="http://apps.leg.wa.gov/WAC/default.aspx?cite=468-38-070">WAC 468-38-370</a> states,
+                        <br>
+                        <strong>"It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."</strong>
+                        <br><br>
+                        For permitting purposes, the permit applicant is identified on the permit in the field titled "Company Name".  Note that the lane in which the maximum and minimum clearances occur are not listed. This must be determined by the operator. In accordance with state law, the owner or operator of a vehicle or combination of vehicles shall exercise due care in determining that sufficient vertical clearance is provided upon the public highways where the vehicle or combination of vehicles is being operated. Due to the variations in structure clearance partially cataloged above, such users should not assume that clearance is in excess of what is published, and should utilize check and prerun methods to assure safe passage.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="close">Accept</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="row" id="truckHeight">
                 <strong>Enter vehicle height in feet and inches</strong><br>
@@ -95,12 +188,25 @@
 
 
     <script>
-        // Add disclaimer button
-        function disclaimer() {
-            var disclaimer =
-                'This Bridge Vertical Clearance Trip Planner is a guide for vertical clearances, but because of physical changes to highways and other possible inconsistencies due to natural phenomena (expansion and contraction of highway facilities due to temperature, natural or unnatural material deposition on the pavement, other transient and lasting unforeseen events, etc.), new construction, pavement overlays, lane reconfiguration, etc., it cannot be guaranteed.  As stated on all permits in accordance with state law, the operator is responsible to identify, navigate and clear all obstructions.\n WAC 468-38-370 states,\n\n "It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."\n\n For permitting purposes, the permit applicant is identified on the permit in the field titled "Company Name".  Note that the lane in which the maximum and minimum clearances occur are not listed. This must be determined by the operator. In accordance with state law, the owner or operator of a vehicle or combination of vehicles shall exercise due care in determining that sufficient vertical clearance is provided upon the public highways where the vehicle or combination of vehicles is being operated. Due to the variations in structure clearance partially cataloged above, such users should not assume that clearance is in excess of what is published, and should utilize check and prerun methods to assure safe passage.'
-            alert(disclaimer);
+    // Disclaimer
+    var modal = document.getElementById("disclaimerModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    // Open disclaimer first    
+    modal.style.display = "block";
+ 
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
         }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+     
 
         // Create blank arrays for placing markers
         var markers = [];
