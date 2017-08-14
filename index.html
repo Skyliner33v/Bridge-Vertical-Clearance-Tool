@@ -21,10 +21,6 @@
             position: relative;
         }
 
-        input {
-            font-size: 12px;
-        }
-
         #routeInfo {
             font-size: 12px;
         }
@@ -38,7 +34,7 @@
         }
 
         #sidebar {
-            position: relative;
+            position: absolute;
             float: left;
             background: #fff;
             height: 100%;
@@ -46,7 +42,14 @@
             padding: 10px 10px 30px 10px;
             text-align: left;
             width: 478px;
-            overflow-y: scroll;
+        }
+
+        .results {
+            position: static;
+            background: #fff;
+            height: 19em;
+            overflow-y: scroll;  
+            
         }
 
         #header {
@@ -167,6 +170,12 @@
         #origin-input, #destination-input {
             width: 60%;
         }
+
+        #submitBtn {
+            border-bottom: 3px solid #5cb85c;
+        }
+
+        
         
 
 
@@ -251,9 +260,23 @@
                 </div>
             </div>
 
+            <div id="submitBtn">
+                <button class="controls">Submit</button>
+            </div>
+            
+            
+                <div id="directionsPane" class="results">
+                 
+                </div>
+                
+
+                <div id="bridgeInfo" class="results">
+                    
+                </div>
+            
 
         </div>
-
+        <!-- End sidebar -->
 
         <div id="map"></div>
     </div>
