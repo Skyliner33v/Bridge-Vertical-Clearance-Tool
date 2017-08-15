@@ -21,14 +21,10 @@
             position: relative;
         }
 
-        #routeInfo {
-            font-size: 12px;
-        }
-
         #map {
             bottom: 0px;
             height: 100%;
-            left: 500px;
+            left: 600px;
             position: absolute;
             right: 0px;
         }
@@ -41,15 +37,14 @@
             line-height: 35px;
             padding: 10px 10px 30px 10px;
             text-align: left;
-            width: 478px;
+            width: 578px;
         }
 
         .results {
             position: static;
             background: #fff;
             height: 19em;
-            overflow-y: scroll;  
-            
+            overflow-y: scroll;
         }
 
         #header {
@@ -167,17 +162,21 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
-        #origin-input, #destination-input {
-            width: 60%;
+        #origin-input,
+        #destination-input {
+            width: 50%;
         }
 
-        #submitBtn {
-            border-bottom: 3px solid #5cb85c;
+        #mode-selector {
+            width: 100%;
+            font-family: sans-serif;
+            font-size: 14px;
         }
 
-        
-        
 
+        #submit {
+            width: 100%;
+        }
 
     </style>
 </head>
@@ -187,7 +186,6 @@
     <div class- "container">
 
         <div class="row" id="sidebar">
-            <h1 id="header">Washington Bridge Vertical Clearances</h1>
 
             <div id="disclaimerModal" Class="modal">
                 <div class="modal-content">
@@ -202,7 +200,7 @@
                             overlays, lane reconfiguration, etc., it cannot be guaranteed. As stated on all permits in accordance
                             with state law, the operator is responsible to identify, navigate and clear all obstructions.
                             <br><br>
-                            <a href="http://apps.leg.wa.gov/WAC/default.aspx?cite=468-38-070"  target="_blank"><strong>WAC 468-38-370</strong></a> states,
+                            <a href="http://apps.leg.wa.gov/WAC/default.aspx?cite=468-38-070" target="_blank"><strong>WAC 468-38-370</strong></a>states,
                             <br>
                             <strong>"It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."</strong>
                             <br><br> For permitting purposes, the permit applicant is identified on the permit in the field
@@ -221,8 +219,30 @@
                 </div>
             </div>
 
+            <h1 id="header">Washington Bridge Vertical Clearances</h1>
+
+            <div id="Directions">
+                <strong class="section">Enter Directions</strong>
+                <div class="row">
+                    <div id="mode-selector" class="controls">
+                        <input type="radio" name="type" id="changemode-driving" checked="checked">
+                        <label for="changemode-driving">Driving</label>
+
+                        <input type="radio" name="type" id="changemode-transit">
+                        <label for="changemode-transit">Transit</label>
+
+                        <input type="radio" name="type" id="changemode-walking">
+                        <label for="changemode-walking">Walking</label>
+                    </div>
+                </div>
+                <div class="directionsPanel">
+                    <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location"><br>
+                    <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+                </div>
+            </div>
+
             <div id="vehicleHeight">
-                <strong>Enter vehicle height in feet and inches</strong><br>
+                <strong class = section>Enter vehicle height in feet and inches</strong><br>
                 <select id="feetInput" class="controls">
                     <option value="10">10 ft</option>
                     <option value="11">11 ft</option>
@@ -252,28 +272,27 @@
                 </select>
             </div>
 
-            <div id="Directions">
-                <strong>Enter Directions</strong>
-                <div class="directionsPanel">
-                    <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location"><br>
-                    <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
-                </div>
+
+            <div id="submitBtn" class="section">
+                <button id="submit" class="controls">Submit</button>
             </div>
 
-            <div id="submitBtn">
-                <button class="controls">Submit</button>
-            </div>
-            
-            
-                <div id="directionsPane" class="results">
-                 
-                </div>
-                
 
-                <div id="bridgeInfo" class="results">
-                    
+            <div id="directionsPane" class="results">
+                <div class="col-md-12">
+                    Start lat : <span id="startlat"></span><br> 
+                    Start lng : <span id="startlng"></span><br> 
+                    End lat : <span id="endlat"></span><br> 
+                    End lng : <span id="endlng"></span><br>
                 </div>
-            
+
+            </div>
+
+
+            <div id="bridgeInfo" class="results">
+
+            </div>
+
 
         </div>
         <!-- End sidebar -->
@@ -306,9 +325,6 @@
         }
 
         //Maps
-        // Create blank arrays for placing markers
-        var markers = [];
-        var placeMarkers = [];
 
         // Initialize map on page, centered on WA state
         function initMap() {
@@ -317,10 +333,102 @@
                     lat: 47.591103,
                     lng: -120.767221
                 },
-                zoom: 8,
+                zoom: 7,
                 mapTypeId: 'roadmap'
             });
+            new AutocompleteDirectionsHandler(map);
         }
+        // Autocomplete
+        function AutocompleteDirectionsHandler(map) {
+            this.map = map;
+            this.originPlaceId = null;
+            this.destinationPlaceId = null;
+            this.travelMode = 'DRIVING';
+            var originInput = document.getElementById('origin-input');
+            var destinationInput = document.getElementById('destination-input');
+            var modeSelector = document.getElementById('mode-selector');
+            this.directionsService = new google.maps.DirectionsService;
+            this.directionsDisplay = new google.maps.DirectionsRenderer;
+            this.directionsDisplay.setMap(map);
+
+            var originAutocomplete = new google.maps.places.Autocomplete(
+                originInput, {
+                    placeIdOnly: true
+                });
+            var destinationAutocomplete = new google.maps.places.Autocomplete(
+                destinationInput, {
+                    placeIdOnly: true
+                });
+
+            this.setupClickListener('changemode-walking', 'WALKING');
+            this.setupClickListener('changemode-transit', 'TRANSIT');
+            this.setupClickListener('changemode-driving', 'DRIVING');
+
+            this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+            this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
+        }
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        AutocompleteDirectionsHandler.prototype.setupClickListener = function (id, mode) {
+            var radioButton = document.getElementById(id);
+            var me = this;
+            radioButton.addEventListener('click', function () {
+                me.travelMode = mode;
+                me.route();
+            });
+        };
+
+        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
+            var me = this;
+            autocomplete.bindTo('bounds', this.map);
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                if (!place.place_id) {
+                    window.alert("Please select an option from the dropdown list.");
+                    return;
+                }
+                if (mode === 'ORIG') {
+                    me.originPlaceId = place.place_id;
+                } else {
+                    me.destinationPlaceId = place.place_id;
+                }
+                me.route();
+            });
+
+        };
+
+        AutocompleteDirectionsHandler.prototype.route = function () {
+            if (!this.originPlaceId || !this.destinationPlaceId) {
+                return;
+            }
+            var me = this;
+
+            // alert(this.originPlaceId);
+
+
+            this.directionsService.route({
+                origin: {
+                    'placeId': this.originPlaceId
+                },
+                destination: {
+                    'placeId': this.destinationPlaceId
+                },
+                travelMode: this.travelMode
+            }, function (response, status) {
+                if (status === 'OK') {
+                    me.directionsDisplay.setDirections(response);
+
+                    document.getElementById('startlat').innerHTML = response.routes[0].legs[0].start_location.lat();
+                    document.getElementById('startlng').innerHTML = response.routes[0].legs[0].start_location.lng();
+                    document.getElementById('endlat').innerHTML = response.routes[0].legs[0].end_location.lat();
+                    document.getElementById('endlng').innerHTML = response.routes[0].legs[0].end_location.lng();
+
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        };
 
 
         //Get Data
@@ -328,7 +436,8 @@
         function getRoute() {
 
             //Initilize call from user input
-            var userHeight = (document.getElementById("inputFeet").value * 12) + document.getElementById("inputInches").value;
+            var userHeight = (document.getElementById("inputFeet").value * 12) + document.getElementById("inputInches")
+                .value;
             var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
             var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" +
                 key;
@@ -348,7 +457,7 @@
                         if (data[i].BeginLatitude === data[i].EndLatitude && data[i].BeginLongitude ===
                             data[i].EndLongitude) {
 
-//modify this section to prepare for marker placement for each location
+
                             //Return lat/long, bridge name, and minimum vertical clearance values
                             retValue +=
                                 data[i].BridgeName + " Begin Lat = " + data[i].BeginLatitude +
@@ -366,7 +475,7 @@
         }
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
 
 </body>
 
