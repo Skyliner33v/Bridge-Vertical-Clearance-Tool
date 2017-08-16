@@ -171,9 +171,12 @@
         }
 
         #origin-input,
-        #destination-input,
-        #submit {
+        #destination-input {
             width: 100%;
+        }
+
+        .buttons {
+            width: 49%;
         }
 
         #mode-selector {
@@ -288,9 +291,13 @@
     </div>
     <!-- End Vehicle Information --> 
 
-    <!-- Submit Div  --> 
-    <div id="submitBtn" class="section">
-        <button id="submit" class="controls" onclick="getRoute()">Submit</button>
+    <!-- Submit and Clear Buttons  --> 
+    <div class="section">
+        <span>
+            <button id="submit" class="controls buttons" onclick="getRoute()">Submit</button>
+            <button id="clear" class="controls buttons" onclick="clearResults()">Clear</button>
+        </span>
+        
     </div>
 
     <!-- Placeholder for Directions SetPanel() --> 
@@ -313,7 +320,7 @@
 
 
     <script>
-        // Disclaimer
+        // Disclaimer opens automatically on page load
         var modal = document.getElementById("disclaimerModal");
         var accept = document.getElementsByClassName("close")[0];
 
@@ -476,6 +483,13 @@
             });
 
         }
+
+        function clearResults() {
+            document.getElementById("directionsResults").innerHTML = "";
+            document.getElementById("bridgeInfo").innerHTML = "";
+        }
+
+
     </script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
