@@ -200,7 +200,7 @@
 
         #origin-input,
         #destination-input {
-            width: 50%;
+            width: 60%;
         }
 
         #mode-selector {
@@ -255,7 +255,7 @@
 
         <h1 id="header">Washington Bridge Vertical Clearances</h1>
 
-        <div id="Directions">
+        <div id="Directions" class="section">
             <strong class="section">Enter Directions</strong>
             <div class="row">
                 <div id="mode-selector" class="controls">
@@ -275,7 +275,7 @@
             </div>
         </div>
 
-        <div id="vehicleHeight">
+        <div id="vehicleHeight" class="section">
             <strong class=s ection>Enter vehicle height in feet and inches</strong><br>
             <select id="feetInput" class="controls">
                     <option value="10">10 ft</option>
@@ -311,30 +311,13 @@
             <button id="submit" class="controls">Submit</button>
         </div>
 
+        <div id="floating-panel"></div>
 
-        <div id="directionsPane" class="results">
-            <div class="col-md-12">
-                Start lat : <span id="startlat"></span><br> Start lng : <span id="startlng"></span><br> End lat : <span id="endlat"></span><br>                End lng : <span id="endlng"></span><br>
-            </div>
-
-        </div>
-
-
-        <div id="bridgeInfo" class="results">
-
-        </div>
-
-
+        <div id="bridgeInfo"></div> 
     </div>
-    <!-- End sidebar -->
-    <div id="floating-panel"></div>
+    <!-- End left-panel -->
+    
     <div id="map"></div>
-
-
-
-
-
-
 
 
     <script>
@@ -451,13 +434,8 @@
             }, function (response, status) {
                 if (status === 'OK') {
                     me.directionsDisplay.setDirections(response);
+                    me.directionsDisplay.setPanel(document.getElementById('left-panel'));
 
-                    document.getElementById('startlat').innerHTML = response.routes[0].legs[0].start_location
-                        .lat();
-                    document.getElementById('startlng').innerHTML = response.routes[0].legs[0].start_location
-                        .lng();
-                    document.getElementById('endlat').innerHTML = response.routes[0].legs[0].end_location.lat();
-                    document.getElementById('endlng').innerHTML = response.routes[0].legs[0].end_location.lng();
 
                 } else {
                     window.alert('Directions request failed due to ' + status);
