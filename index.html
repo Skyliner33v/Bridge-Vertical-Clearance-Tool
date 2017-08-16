@@ -7,6 +7,7 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Raleway');
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
 
         html,
         body {
@@ -17,6 +18,7 @@
 
         #map {
             height: 100%;
+            margin-left: 450px;
         }
 
         #left-panel {
@@ -46,10 +48,6 @@
             overflow: auto;
         }
 
-        #map {
-            margin-left: 450px;
-        }
-
         .results {
             position: static;
             background: #fff;
@@ -58,8 +56,8 @@
         }
 
         #header {
-            font: 36;
-            font-size: 22px;
+            font-family: 'Raleway';
+            font-size: 24px;
             margin: 0 0 10px 0;
             text-align: center;
         }
@@ -173,17 +171,16 @@
         }
 
         #origin-input,
-        #destination-input {
-            width: 60%;
+        #destination-input,
+        #submit {
+            width: 100%;
         }
 
         #mode-selector {
-            width: 100%;
-            font-family: sans-serif;
-            font-size: 14px;
+            display: none;
         }
 
-        #directions, #submitBtn {
+        #submitBtn {
             border-bottom: 2px solid #ccc;
         }
 
@@ -191,9 +188,7 @@
             font-size: 12px;
         }
 
-        #submit {
-            width: 100%;
-        }
+
     </style>
 </head>
 
