@@ -1,499 +1,144 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <title>Washington Bridge Vertical Clearances</title>
+        <link rel="icon" href="favicon.ico">
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="style.css" />
 
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Raleway');
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
+    </head>
+    <body>
 
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            height: 100%;
-            margin-left: 450px;
-        }
-
-        #left-panel {
-            font-family: 'Roboto', 'sans-serif';
-            line-height: 30px;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        #left-panel select,
-        #left-panel input {
-            font-size: 15px;
-        }
-
-        #left-panel select {
-            width: 100%;
-        }
-
-        #left-panel i {
-            font-size: 12px;
-        }
-
-        #left-panel {
-            height: 100%;
-            float: left;
-            width: 440px;
-            overflow: auto;
-        }
-
-        .results {
-            position: static;
-            background: #fff;
-            height: 50%;
-            overflow-y: scroll;
-        }
-
-        #header {
-            font-family: 'Raleway';
-            font-size: 24px;
-            margin: 0 0 10px 0;
-            text-align: center;
-        }
-        /* The Modal (background) */
-
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            padding-top: 100px;
-            /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
-        /* Modal Content */
-
-        .modal-content {
-            position: relative;
-            background-color: #fefefe;
-            margin: auto;
-            padding: 0;
-            border: 1px solid #888;
-            width: 60%;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            -webkit-animation-name: animatetop;
-            -webkit-animation-duration: 0.4s;
-            animation-name: animatetop;
-            animation-duration: 0.4s
-        }
-        /* Add Animation */
-
-        @-webkit-keyframes animatetop {
-            from {
-                top: -300px;
-                opacity: 0
-            }
-            to {
-                top: 0;
-                opacity: 1
-            }
-        }
-
-        @keyframes animatetop {
-            from {
-                top: -300px;
-                opacity: 0
-            }
-            to {
-                top: 0;
-                opacity: 1
-            }
-        }
-        /* The Close Button */
-
-        .close {
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            border: 1px solid #fff;
-            border-radius: 10px;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-header {
-            padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
-        }
-
-        .modal-body {
-            padding: 4px 16px;
-            font-size: 16px;
-            line-height: 20px;
-        }
-
-        .modal-footer {
-            padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
-        }
-
-        .controls {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border: 1px solid transparent;
-            border-radius: 2px 0 0 2px;
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            height: 32px;
-            outline: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        #origin-input,
-        #destination-input {
-            width: 100%;
-        }
-
-        .buttons {
-            width: 49%;
-        }
-
-        #mode-selector {
-            display: none;
-        }
-
-        #submitBtn {
-            border-bottom: 2px solid #ccc;
-        }
-
-        #bridgeInfo {
-            font-size: 12px;
-        }
-
-
-    </style>
-</head>
-
-<body>
-
-<!-- Disclaimer -->    
-<div id="disclaimerModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Disclaimer</h2>
-        </div>
-        <div class="modal-body">
-            <p>This Bridge Vertical Clearance Trip Planner is a guide for vertical clearances, but because of physical
-                changes to highways and other possible inconsistencies due to natural phenomena (expansion and contraction
-                of highway facilities due to temperature, natural or unnatural material deposition on the pavement,
-                other transient and lasting unforeseen events, etc.), new construction, pavement overlays, lane reconfiguration,
-                etc., it cannot be guaranteed. As stated on all permits in accordance with state law, the operator
-                is responsible to identify, navigate and clear all obstructions.
-                <br><br>
-                <a href="http://apps.leg.wa.gov/WAC/default.aspx?cite=468-38-070" target="_blank"><strong>WAC 468-38-370</strong></a>states,
-                <br>
-                <strong>"It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."</strong>
-                <br><br> For permitting purposes, the permit applicant is identified on the permit in the field titled
-                "Company Name". Note that the lane in which the maximum and minimum clearances occur are not listed.
-                This must be determined by the operator. In accordance with state law, the owner or operator of a
-                vehicle or combination of vehicles shall exercise due care in determining that sufficient vertical
-                clearance is provided upon the public highways where the vehicle or combination of vehicles is being
-                operated. Due to the variations in structure clearance partially cataloged above, such users should
-                not assume that clearance is in excess of what is published, and should utilize check and prerun
-                methods to assure safe passage.
-            </p>
-        </div>
-        <div class="modal-footer">
-            <h2 class="close">Accept</h2>
-        </div>
-    </div>
-</div>
-<!-- End Disclaimer --> 
-
-
-<!-- Left Panel --> 
-<div id="left-panel">
-    <h1 id="header">Washington Bridge Vertical Clearances</h1>
-
-    <!-- Directions --> 
-    <div id="directions" class="section">
-        <strong class="section">Enter Directions</strong>
-        <div class="row">
-            <div id="mode-selector" class="controls">
-                <input type="radio" name="type" id="changemode-driving" checked="checked">
-                <label for="changemode-driving">Driving</label>
-
-                <input type="radio" name="type" id="changemode-transit">
-                <label for="changemode-transit">Transit</label>
-
-                <input type="radio" name="type" id="changemode-walking">
-                <label for="changemode-walking">Walking</label>
+    <!-- Disclaimer -->    
+        <div id="disclaimerModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Disclaimer</h2>
+                </div>
+                <div class="modal-body">
+                    <p>This Bridge Vertical Clearance Trip Planner is a guide for vertical clearances, but because of physical
+                        changes to highways and other possible inconsistencies due to natural phenomena (expansion and contraction
+                        of highway facilities due to temperature, natural or unnatural material deposition on the pavement,
+                        other transient and lasting unforeseen events, etc.), new construction, pavement overlays, lane reconfiguration,
+                        etc., it cannot be guaranteed. As stated on all permits in accordance with state law, the operator
+                        is responsible to identify, navigate and clear all obstructions.
+                        <br><br>
+                        <a href="http://apps.leg.wa.gov/WAC/default.aspx?cite=468-38-070" target="_blank"><strong>WAC 468-38-370</strong></a>states,
+                        <br>
+                        <strong>"It is the responsibility of the permit applicant to check, or prerun, the proposed route and provide for safe maneuvers around the obstruction or detours as necessary."</strong>
+                        <br><br> For permitting purposes, the permit applicant is identified on the permit in the field titled
+                        "Company Name". Note that the lane in which the maximum and minimum clearances occur are not listed.
+                        This must be determined by the operator. In accordance with state law, the owner or operator of a
+                        vehicle or combination of vehicles shall exercise due care in determining that sufficient vertical
+                        clearance is provided upon the public highways where the vehicle or combination of vehicles is being
+                        operated. Due to the variations in structure clearance partially cataloged above, such users should
+                        not assume that clearance is in excess of what is published, and should utilize check and prerun
+                        methods to assure safe passage.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <h2 class="close">Accept</h2>
+                </div>
             </div>
         </div>
-        <div class="directionsPanel">
-            <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location"><br>
-            <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+        <!-- End Disclaimer --> 
+
+
+        <!-- Left Panel --> 
+        <div id="left-panel">
+            <h1 id="header">Washington Bridge Vertical Clearances</h1>
+
+            <!-- Directions --> 
+            <div id="directions" class="section">
+                <strong class="section">Enter Directions</strong>
+                <div class="row">
+                    <div id="mode-selector" class="controls">
+                        <input type="radio" name="type" id="changemode-driving" checked="checked">
+                        <label for="changemode-driving">Driving</label>
+
+                        <input type="radio" name="type" id="changemode-transit">
+                        <label for="changemode-transit">Transit</label>
+
+                        <input type="radio" name="type" id="changemode-walking">
+                        <label for="changemode-walking">Walking</label>
+                    </div>
+                </div>
+                <div class="directionsPanel">
+                    <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location"><br>
+                    <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+                </div>
+            </div>
+            <!-- End Directions --> 
+
+            <!-- Vehicle Information --> 
+            <div id="vehicleHeight" class="section">
+                <strong class=s ection>Enter vehicle height in feet and inches</strong><br>
+                <select id="feetInput" class="controls">
+                    <option value="10">10 ft</option>
+                    <option value="11">11 ft</option>
+                    <option value="12">12 ft</option>
+                    <option value="13">13 ft</option>
+                    <option value="14">14 ft</option>
+                    <option value="15">15 ft</option>
+                    <option value="16">16 ft</option>
+                    <option value="17">17 ft</option>
+                    <option value="18">18 ft</option>
+                    <option value="19">19 ft</option>
+                    <option value="20">20 ft</option>
+                </select>
+                <select id="inchesInput" class="controls">
+                    <option value="0">0 in</option>
+                    <option value="1">1 in</option>
+                    <option value="2">2 in</option>
+                    <option value="3">3 in</option>
+                    <option value="4">4 in</option>
+                    <option value="5">5 in</option>
+                    <option value="6">6 in</option>
+                    <option value="7">7 in</option>
+                    <option value="8">8 in</option>
+                    <option value="9">9 in</option>
+                    <option value="10">10 in</option>
+                    <option value="11">11 in</option>
+                </select>
+            </div>
+            <!-- End Vehicle Information --> 
+
+            <!-- Submit and Clear Buttons  --> 
+            <div class="section">
+                <span>
+                    <button id="submit" class="controls buttons" onclick="getRoute()">Submit</button>
+                    <button id="clear" class="controls buttons" onclick="clearResults()">Clear</button>
+                </span>
+                
+            </div>
+
+            <!-- Placeholder for Directions SetPanel() --> 
+            <div>
+                <div id="directionsResults"></div>
+            </div>
+                
+
+            <!-- Placehold for Bridge Specific Info --> 
+            <div>
+                <div id="bridgeInfo"></div> 
+            </div>
+                
         </div>
-    </div>
-    <!-- End Directions --> 
-
-    <!-- Vehicle Information --> 
-    <div id="vehicleHeight" class="section">
-        <strong class=s ection>Enter vehicle height in feet and inches</strong><br>
-        <select id="feetInput" class="controls">
-            <option value="10">10 ft</option>
-            <option value="11">11 ft</option>
-            <option value="12">12 ft</option>
-            <option value="13">13 ft</option>
-            <option value="14">14 ft</option>
-            <option value="15">15 ft</option>
-            <option value="16">16 ft</option>
-            <option value="17">17 ft</option>
-            <option value="18">18 ft</option>
-            <option value="19">19 ft</option>
-            <option value="20">20 ft</option>
-        </select>
-        <select id="inchesInput" class="controls">
-            <option value="0">0 in</option>
-            <option value="1">1 in</option>
-            <option value="2">2 in</option>
-            <option value="3">3 in</option>
-            <option value="4">4 in</option>
-            <option value="5">5 in</option>
-            <option value="6">6 in</option>
-            <option value="7">7 in</option>
-            <option value="8">8 in</option>
-            <option value="9">9 in</option>
-            <option value="10">10 in</option>
-            <option value="11">11 in</option>
-        </select>
-    </div>
-    <!-- End Vehicle Information --> 
-
-    <!-- Submit and Clear Buttons  --> 
-    <div class="section">
-        <span>
-            <button id="submit" class="controls buttons" onclick="getRoute()">Submit</button>
-            <button id="clear" class="controls buttons" onclick="clearResults()">Clear</button>
-        </span>
-        
-    </div>
-
-    <!-- Placeholder for Directions SetPanel() --> 
-    <div>
-        <div id="directionsResults"></div>
-    </div>
-        
-
-    <!-- Placehold for Bridge Specific Info --> 
-    <div>
-        <div id="bridgeInfo"></div> 
-    </div>
-        
-</div>
-<!-- End left-panel -->
+        <!-- End left-panel -->
 
 
-<!-- Map --> 
-<div id="map"></div>
+        <!-- Map --> 
+        <div id="map"></div>
 
 
-    <script>
-        // Disclaimer opens automatically on page load
-        var modal = document.getElementById("disclaimerModal");
-        var accept = document.getElementsByClassName("close")[0];
+        <script src="main.js"></script>
 
-        // Open disclaimer first    
-        modal.style.display = "block";
+        <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
 
-        // When the user clicks on <span> (x), close the modal
-        accept.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        //Maps
-
-        // Initialize map on page, centered on WA state
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: 47.591103,
-                    lng: -120.767221
-                },
-                zoom: 7,
-                mapTypeId: 'roadmap'
-            });
-            new AutocompleteDirectionsHandler(map);
-        }
-        // Autocomplete
-        function AutocompleteDirectionsHandler(map) {
-            this.map = map;
-            this.originPlaceId = null;
-            this.destinationPlaceId = null;
-            this.travelMode = 'DRIVING';
-            var originInput = document.getElementById('origin-input');
-            var destinationInput = document.getElementById('destination-input');
-            var modeSelector = document.getElementById('mode-selector');
-            this.directionsService = new google.maps.DirectionsService;
-            this.directionsDisplay = new google.maps.DirectionsRenderer;
-            this.directionsDisplay.setMap(map);
-
-            var originAutocomplete = new google.maps.places.Autocomplete(
-                originInput, {
-                    placeIdOnly: true
-                });
-            var destinationAutocomplete = new google.maps.places.Autocomplete(
-                destinationInput, {
-                    placeIdOnly: true
-                });
-
-             this.setupClickListener('changemode-walking', 'WALKING');
-            this.setupClickListener('changemode-transit', 'TRANSIT');
-            this.setupClickListener('changemode-driving', 'DRIVING');
-
-            this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-            this.setupPlaceChangedListener(destinationAutocomplete, 'DEST'); 
-        }
-
-         // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-        AutocompleteDirectionsHandler.prototype.setupClickListener = function (id, mode) {
-            var radioButton = document.getElementById(id);
-            var me = this;
-            radioButton.addEventListener('click', function () {
-                me.travelMode = mode;
-                me.route();
-            });
-        };
-
-        AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
-            var me = this;
-            autocomplete.bindTo('bounds', this.map);
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                if (!place.place_id) {
-                    window.alert("Please select an option from the dropdown list.");
-                    return;
-                }
-                if (mode === 'ORIG') {
-                    me.originPlaceId = place.place_id;
-                } else {
-                    me.destinationPlaceId = place.place_id;
-                }
-                me.route();
-            });
-
-        };
-
-        AutocompleteDirectionsHandler.prototype.route = function () {
-            if (!this.originPlaceId || !this.destinationPlaceId) {
-                return;
-            }
-            var me = this;
-
-            // alert(this.originPlaceId);
-
-
-            this.directionsService.route({
-                origin: {
-                    'placeId': this.originPlaceId
-                },
-                destination: {
-                    'placeId': this.destinationPlaceId
-                },
-                travelMode: this.travelMode
-            }, function (response, status) {
-                if (status === 'OK') {
-                    me.directionsDisplay.setDirections(response);
-                    me.directionsDisplay.setPanel(document.getElementById('directionsResults'));
-
-
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }; 
-
-
-        // Get Data
-        // AJAX call to WSDOT api to get route specific bridge clearance info
-        function getRoute() {
-
-            // Initilize call from user input
-            // var userHeight = (document.getElementById("inputFeet").value * 12) + document.getElementById("inputInches").value;
-            var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
-            var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" + key;
-
-            //Call to WSDOT Bridge Clearances API
-            $.ajax({
-                url: url,
-                dataType: 'jsonp',
-                success: function (data) {
-                    var retValue = "";
-                    var latLong = "";
-
-                    //Iterate through all values returned 
-                    for (var i = 0; i < data.length; i++) {
-
-                        //We only want Under records where Begin and End Coordinates are the same
-                        if (data[i].BeginLatitude === data[i].EndLatitude && data[i].BeginLongitude ===
-                            data[i].EndLongitude) {
-
-
-                            //Return lat/long, bridge name, and minimum vertical clearance values
-                            retValue +=
-                                data[i].BridgeName + "<br>" + 
-                                " Lat = " + data[i].BeginLatitude + 
-                                " Long = " + data[i].BeginLongitude + 
-                                " Min Clearance = " + data[i].MinimumVerticalClearance + "<br>"
-                        }
-                    }
-
-                    //Add returned info to page
-                    document.getElementById("bridgeInfo").innerHTML = retValue;
-                }
-            });
-
-        }
-
-        function clearResults() {
-            document.getElementById("directionsResults").innerHTML = "";
-            document.getElementById("bridgeInfo").innerHTML = "";
-        }
-
-
-    </script>
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBnHYpw5I8E40V2gAEO5iRawpmbXJdea5I&v=3&callback=initMap"></script>
-
-</body>
+    </body>
 
 </html>

@@ -1,0 +1,184 @@
+ @import url('https://fonts.googleapis.com/css?family=Raleway');
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+            margin-left: 450px;
+        }
+
+        #left-panel {
+            font-family: 'Roboto', 'sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #left-panel select,
+        #left-panel input {
+            font-size: 15px;
+        }
+
+        #left-panel select {
+            width: 100%;
+        }
+
+        #left-panel i {
+            font-size: 12px;
+        }
+
+        #left-panel {
+            height: 100%;
+            float: left;
+            width: 440px;
+            overflow: auto;
+        }
+
+        .results {
+            position: static;
+            background: #fff;
+            height: 50%;
+            overflow-y: scroll;
+        }
+
+        #header {
+            font-family: 'Raleway';
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+        /* The Modal (background) */
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /* Modal Content */
+
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 60%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        /* Add Animation */
+
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+        /* The Close Button */
+
+        .close {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #fff;
+            border-radius: 10px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 4px 16px;
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .controls {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            height: 32px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #origin-input,
+        #destination-input {
+            width: 100%;
+        }
+
+        .buttons {
+            width: 49%;
+        }
+
+        #mode-selector {
+            display: none;
+        }
+
+        #submitBtn {
+            border-bottom: 2px solid #ccc;
+        }
+
+        #bridgeInfo {
+            font-size: 12px;
+        }
