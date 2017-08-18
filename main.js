@@ -10,15 +10,7 @@
             modal.style.display = "none";
         }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
         //Maps
-
         // Initialize map on page, centered on WA state
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -31,6 +23,7 @@
             });
             new AutocompleteDirectionsHandler(map);
         }
+
         // Autocomplete
         function AutocompleteDirectionsHandler(map) {
             this.map = map;
@@ -112,6 +105,7 @@
                 if (status === 'OK') {
                     me.directionsDisplay.setDirections(response);
                     me.directionsDisplay.setPanel(document.getElementById('directionsResults'));
+                    console.log(route);
 
 
                 } else {

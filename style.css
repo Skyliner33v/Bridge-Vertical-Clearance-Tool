@@ -182,3 +182,7 @@
         #bridgeInfo {
             font-size: 12px;
         }
+
+        #directions, #vehicleHeight {
+            padding-bottom: 20px;
+        }
