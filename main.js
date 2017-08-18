@@ -34,7 +34,8 @@
             var destinationInput = document.getElementById('destination-input');
             //var modeSelector = document.getElementById('mode-selector');
             this.directionsService = new google.maps.DirectionsService;
-            this.directionsDisplay = new google.maps.DirectionsRenderer;
+            this.directionsDisplay = new google.maps.DirectionsRenderer({
+                draggable: true});
             this.directionsDisplay.setMap(map);
 
             var originAutocomplete = new google.maps.places.Autocomplete(
