@@ -162,6 +162,18 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
+        .resultsControls {
+            margin-top: 1px;
+            margin-bottom: 4px;
+            line-height: 125%;
+            border: 1px solid transparent;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;      
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
         #origin-input,
         #destination-input {
             width: 100%;

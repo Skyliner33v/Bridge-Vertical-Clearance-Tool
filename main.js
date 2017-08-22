@@ -106,7 +106,14 @@
         function getRoute() {
 
             // Initilize call from user input
-            // var userHeight = (document.getElementById("inputFeet").value * 12) + document.getElementById("inputInches").value;
+
+            var userFeet = document.getElementById("inputFeet");
+            var userInches = document.getElementById("inputInches");
+
+
+            //console.log(feetValue);
+
+
             var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
             var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" + key;
 
@@ -128,10 +135,12 @@
 
                             //Return lat/long, bridge name, and minimum vertical clearance values
                             retValue +=
-                                data[i].BridgeName + "<br>" + 
-                                " Lat = " + data[i].BeginLatitude + 
-                                " Long = " + data[i].BeginLongitude + 
-                                " Min Clearance = " + data[i].MinimumVerticalClearance + "<br>"
+                                "<div class = 'resultsControls'>" + 
+                                    "<ul><strong>" + data[i].BridgeName + "</strong>" +
+                                    "<li> Lat = " + data[i].BeginLatitude +  "</li>" + 
+                                    "<li> Long = " + data[i].BeginLongitude +  "</li>" + 
+                                    "<li> Min Clearance = " + data[i].MinimumVerticalClearance +  "</li>" + 
+                                "</ul></div>"
                         }
                     }
 
