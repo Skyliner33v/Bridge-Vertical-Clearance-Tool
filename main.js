@@ -101,19 +101,21 @@
         }; 
 
 
+
+        // Initialize measurement inputs and convert to whole inches.
+        var selectFeet = document.getElementById("feetInput");
+        var selectInches = document.getElementById("inchesInput");
+        var userFeet = selectFeet[selectFeet.selectedIndex].value;
+        var userInches = selectInches[selectInches.selectedIndex].value;
+        var userHeight = (parseFloat(userFeet) * 12) + parseFloat(userInches);
+
+
         // Get Data
         // AJAX call to WSDOT api to get route specific bridge clearance info
         function getRoute() {
+            document.getElementById("directionsResults").innerHTML = "";
 
             // Initilize call from user input
-
-            var userFeet = document.getElementById("inputFeet");
-            var userInches = document.getElementById("inputInches");
-
-
-            //console.log(feetValue);
-
-
             var key = "59a077ad-7ee3-49f8-9966-95a788d7052f"
             var url = "https://wsdot.wa.gov/Traffic/api/Bridges/ClearanceREST.svc/GetClearancesAsJson?AccessCode=" + key;
 
@@ -122,30 +124,38 @@
                 url: url,
                 dataType: 'jsonp',
                 success: function (data) {
-                    var retValue = "";
+                    var overHeight = "";
+                    var underHeight = "";
                     var latLong = "";
+                    var count = 0;
 
-                    //Iterate through all values returned 
+                    // Iterate through all values returned 
                     for (var i = 0; i < data.length; i++) {
 
-                        //We only want Under records where Begin and End Coordinates are the same
+                        // We only want Under records where Begin and End Coordinates are the same
                         if (data[i].BeginLatitude === data[i].EndLatitude && data[i].BeginLongitude ===
                             data[i].EndLongitude) {
 
+                            // 
+                            if (data[i].MinimumVerticalClearanceInches < userHeight) {
 
-                            //Return lat/long, bridge name, and minimum vertical clearance values
-                            retValue +=
-                                "<div class = 'resultsControls'>" + 
-                                    "<ul><strong>" + data[i].BridgeName + "</strong>" +
-                                    "<li> Lat = " + data[i].BeginLatitude +  "</li>" + 
-                                    "<li> Long = " + data[i].BeginLongitude +  "</li>" + 
-                                    "<li> Min Clearance = " + data[i].MinimumVerticalClearance +  "</li>" + 
-                                "</ul></div>"
+                                //Return lat/long, bridge name, and minimum vertical clearance values
+                                underHeight +=
+                                    "<div class = 'resultsControls'>" + 
+                                        "<ul><strong>" + data[i].BridgeName + "</strong>" +
+                                        "<li> Lat = " + data[i].BeginLatitude +  "</li>" + 
+                                        "<li> Long = " + data[i].BeginLongitude +  "</li>" + 
+                                        "<li> Min Clearance = " + data[i].MinimumVerticalClearance +  "</li>" + 
+                                        "<li> Total Inches = " + data[i].MinimumVerticalClearanceInches +  " inches</li>" + 
+                                    "</ul></div>";
+                                count += 1;
+                            }
                         }
+                        document.getElementById("counter").innerHTML = "There are " + count + " structures less than " + userFeet + " ft " + userInches;
                     }
 
                     //Add returned info to page
-                    document.getElementById("bridgeInfo").innerHTML = retValue;
+                    document.getElementById("bridgeInfo").innerHTML = underHeight;
                 }
             });
 
@@ -153,5 +163,6 @@
 
         function clearResults() {
             document.getElementById("directionsResults").innerHTML = "";
+            document.getElementById("counter").innerHTML = "";
             document.getElementById("bridgeInfo").innerHTML = "";
         }
